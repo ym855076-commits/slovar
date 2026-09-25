@@ -43,7 +43,7 @@
         .btn-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
         .btn-danger:hover { background: var(--danger); color: #fff; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; align-items: center; text-align: center; }
+        .modal-content { background: var(--card-bg); padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
         .qr-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .qr-img { width: 160px; height: 160px; border-radius: 8px; background: #fff; padding: 5px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .qr-img:hover { transform: scale(1.03); }
@@ -70,8 +70,9 @@
 
     <div class="qr-section">
         <h3 id="lbl-share">Sözlügi paýlaşmak / Поделиться словарем</h3>
-        <!-- Изменено: теперь вместо тега <a> используется вызов функции открытия модального окна -->
-        <img src="qrcode.png" alt="QR-код словаря" class="qr-img" onclick="openQrModal()" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'14\'>qrcode.png ýok</text></svg>'">
+        <a href="qrcode.png" target="_blank" title="Basyp uly ekranda açyň">
+            <img src="qrcode.png" alt="QR-код словаря" class="qr-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'14\'>qrcode.png ýok</text></svg>'">
+        </a>
         <p style="font-size: 13px; color: var(--text-muted);" id="lbl-qr-hint">Uly etmek üçin surata basyň / Нажмите на QR-код для увеличения</p>
     </div>
 
@@ -79,7 +80,7 @@
 </div>
 
 <!-- Модальное окно -->
-<div class="modal" id="modalWindow" onclick="if(event.target === this) closeModal()">
+<div class="modal" id="modalWindow">
     <div class="modal-content" id="modalBody"></div>
 </div>
 
@@ -208,7 +209,7 @@
                 { id: 158, ru: "Удивление", tm: "Geň galmak" }, { id: 159, ru: "Страх", tm: "Gorky" },
                 { id: 160, ru: "Любовь", tm: "Söýgi" }, { id: 161, ru: "Доброта", tm: "Ýagşylyk" },
                 { id: 162, ru: "Интересно", tm: "Gyzykly" }, { id: 163, ru: "Хорошо", tm: "Gowy" },
-                { id: 164, ru: "Плохо", tm: "Erbet" }, { id: 165, ru: "Устал", tm: "Ýadadym" },
+                { id: 164, ru: "Плохо", tm: "Erbet" }, { id: 165, ru: "Устал", tm:ad => "Ýadadym" },
                 { id: 166, ru: "Помощь", tm: "Kömek" }, { id: 167, ru: "Спокойствие", tm: "Rahatlyk" },
                 { id: 168, ru: "Гордость", tm: "Serpaý" }, { id: 169, ru: "Смех", tm: "Gülki" },
                 { id: 170, ru: "Интерес", tm: "Höwes" }, { id: 171, ru: "Тепло", tm: "Ýylylyk" },
@@ -239,7 +240,7 @@
                 { id: 200, ru: "Все правильно", tm: "Hemmesi dogry" }, { id: 201, ru: "Молодец!", tm: "Apareý! / Bäbek!" },
                 { id: 202, ru: "Пойдем со мной", tm: "Meniň bilen ýör" }, { id: 203, ru: "Посмотри сюда", tm: "Şu ýere seret" },
                 { id: 204, ru: "Я рад", tm: "Men begendin" }, { id: 205, ru: "Спасибо за помощь", tm: "Kömegiňiz üçin sag boluň" },
-                { id: 206, ru: "До встречи", tm: "Görşýänçäk" }, { id: 207, ru: "Не бояться сказать", tm: "Aýtmakdan gorkmazlyk" },
+                { id: 206, ru: "До встречи", tm:üşine-de görşýänçäk }, { id: 207, ru: "Не бояться сказать", tm: "Aýtmakdan gorkmazlyk" },
                 { id: 208, ru: "Подожди немного", tm: "Azajyk garaş" }, { id: 209, ru: "Тихо", tm: "Sesini çykarma / Ümsüm" },
                 { id: 210, ru: "Громко", tm: "Batyly ses" }, { id: 211, ru: "Верно", tm: "Dogry" },
                 { id: 212, ru: "Неверно", tm: "Nädogry" }, { id: 213, ru: "Всё готово", tm: "Hemmesi taýýar" }
@@ -367,20 +368,6 @@
         }
     }
 
-    // Функция для открытия увеличенного QR-кода в модальном окне
-    function openQrModal() {
-        const modal = document.getElementById('modalWindow');
-        const body = document.getElementById('modalBody');
-        
-        body.innerHTML = `
-            <h2>${currentLang === 'ru' ? 'QR-код словаря' : 'Sözlügiň QR-kody'}</h2>
-            <img src="qrcode.png" alt="QR-код словаря" style="width: 260px; height: 260px; border-radius: 8px; background: #fff; padding: 10px; object-fit: contain;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'16\'>qrcode.png ýok</text></svg>'">
-            <p style="font-size: 14px; color: var(--text-muted);">${currentLang === 'ru' ? 'Отсканируйте код камерой телефона' : 'Telefon kamerasy arkaly skan ediň'}</p>
-            <button onclick="closeModal()" style="background: var(--accent); color: #fff; width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>
-        `;
-        modal.style.display = 'flex';
-    }
-
     function openWordOfTheDay() {
         const allWords = data.flatMap(c => c.words);
         const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
@@ -391,7 +378,7 @@
             <h2>🎲 ${currentLang === 'ru' ? 'Слово дня' : 'Günüň sözi'}</h2>
             <div style="font-size: 22px; font-weight: bold; text-align: center; color: var(--accent); margin: 20px 0;">${randomWord[currentLang]}</div>
             <p style="text-align: center; color: var(--text-muted);">${currentLang === 'ru' ? 'Изучите жест для этого слова сегодня!' : 'Şu gün şu sözi öwreniň!'}</p>
-            <button onclick="closeModal()" style="background: var(--accent); color: #fff; width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">OK</button>
+            <button onclick="closeModal()" style="background: var(--accent); color: #fff;">OK</button>
         `;
         modal.style.display = 'flex';
     }
@@ -416,7 +403,7 @@
         options.forEach(opt => {
             html += `<button onclick="checkQuiz(${opt.id === correct.id})" style="width:100%; text-align:left; margin-bottom:8px; padding:12px;">${opt[currentLang]}</button>`;
         });
-        html += `<button onclick="closeModal()" class="btn-danger" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; border:none; cursor:pointer;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
+        html += `<button onclick="closeModal()" class="btn-danger" style="margin-top:10px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
         
         body.innerHTML = html;
         modal.style.display = 'flex';
@@ -425,9 +412,9 @@
     function checkQuiz(isCorrect) {
         const body = document.getElementById('modalBody');
         if(isCorrect) {
-            body.innerHTML = `<h2 style="color:var(--accent); text-align:center;">🎉 ${currentLang === 'ru' ? 'Правильно! Молодец!' : 'Dogry! Äpeteri!'}</h2><button onclick="openQuiz()" style="background:var(--accent); color:#fff; width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; margin-top:15px;">${currentLang === 'ru' ? 'Следующий вопрос' : 'Indiki sorag'}</button><button onclick="closeModal()" style="width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
+            body.innerHTML = `<h2 style="color:var(--accent); text-align:center;">🎉 ${currentLang === 'ru' ? 'Правильно! Молодец!' : 'Dogry! Äpeteri!'}</h2><button onclick="openQuiz()" style="background:var(--accent); color:#fff; margin-top:15px;">${currentLang === 'ru' ? 'Следующий вопрос' : 'Indiki sorag'}</button><button onclick="closeModal()" style="margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
         } else {
-            body.innerHTML = `<h2 style="color:var(--danger); text-align:center;">❌ ${currentLang === 'ru' ? 'Ошибка, попробуйте еще раз' : 'Ýalňyş, täzeden synanyşyň'}</h2><button onclick="openQuiz()" style="width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; margin-top:15px;">${currentLang === 'ru' ? 'Повторить' : 'Täzeden'}</button><button onclick="closeModal()" style="width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
+            body.innerHTML = `<h2 style="color:var(--danger); text-align:center;">❌ ${currentLang === 'ru' ? 'Ошибка, попробуйте еще раз' : 'Ýalňyş, täzeden synanyşyň'}</h2><button onclick="openQuiz()" style="margin-top:15px;">${currentLang === 'ru' ? 'Повторить' : 'Täzeden'}</button><button onclick="closeModal()" style="margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
         }
     }
 
@@ -438,8 +425,8 @@
             <h2>🧩 ${currentLang === 'ru' ? 'Конструктор дактиля' : 'Daktil gurluşy'}</h2>
             <p style="color:var(--text-muted); font-size:14px;">${currentLang === 'ru' ? 'Введите слово буквами для сборки пальцевой азбуки:' : 'Elipbiý arkaly söz düzüň:'}</p>
             <input type="text" id="constructInput" class="search-box" placeholder="${currentLang === 'ru' ? 'Введите текст...' : 'Söz ýazyň...'}" oninput="buildLetters()">
-            <div id="lettersOutput" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; min-height:60px; align-items:center; justify-content:center; background:var(--bg-color); border-radius:8px; padding:10px; width:100%;"></div>
-            <button onclick="closeModal()" style="width:100%; padding:10px; border-radius:8px; border:none; cursor:pointer; margin-top:10px; background:var(--border); color:var(--text-main); font-weight:bold;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>
+            <div id="lettersOutput" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; min-height:60px; align-items:center; justify-content:center; background:var(--bg-color); border-radius:8px; padding:10px;"></div>
+            <button onclick="closeModal()" style="margin-top:10px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>
         `;
         modal.style.display = 'flex';
     }
