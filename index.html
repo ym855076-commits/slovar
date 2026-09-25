@@ -61,11 +61,13 @@
   .delBtn{flex:0.25;background:rgba(217, 83, 79, 0.1);border-color:rgba(217, 83, 79, 0.3);color:#e74c3c;}
   .hiddenFile{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
 
-  #zoomModal,#quizModal,#builderModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:30;align-items:center;justify-content:center;flex-direction:column;padding:16px;}
-  #zoomContent{max-width:90vw;max-height:80vh;border-radius:12px;overflow:hidden;}
-  #zoomContent img, #zoomContent video{width:100%;height:100%;max-height:75vh;object-fit:contain;}
-  #zoomTitle{color:#fff;margin-top:12px;font-size:16px;font-weight:700;}
+  /* Модальное окно для увеличенного просмотра */
+  #zoomModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:50;align-items:center;justify-content:center;flex-direction:column;padding:16px;}
+  #zoomContent{max-width:95vw;max-height:80vh;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  #zoomContent img, #zoomContent video{max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px;}
+  #zoomTitle{color:#fff;margin-top:14px;font-size:18px;font-weight:700;text-align:center;}
 
+  #quizModal,#builderModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:30;align-items:center;justify-content:center;flex-direction:column;padding:16px;}
   .modalBox{background:var(--card);border-radius:16px;padding:20px;max-width:360px;width:100%;text-align:center;border:1px solid var(--border);}
   .qopt{display:block;width:100%;margin:6px 0;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;}
   .qopt.correct{background:#1f8a5f!important;color:#fff!important;}
@@ -74,7 +76,7 @@
   .letter-slot{display:inline-block;width:32px;height:36px;line-height:36px;border:1px dashed var(--accent);margin:3px;border-radius:6px;font-weight:700;font-size:16px;}
   .letter-btn{display:inline-block;padding:6px 10px;background:var(--bg);border:1px solid var(--border);margin:3px;border-radius:6px;font-weight:700;cursor:pointer;}
 
-  /* Стиль для встроенного QR-кода */
+  /* Стиль для кликабельного блока с QR-кодом */
   .qr-section {
     text-align: center;
     margin: 30px auto 15px auto;
@@ -83,6 +85,12 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .qr-section:hover {
+    border-color: var(--accent);
+    transform: scale(1.02);
   }
   .qr-section img {
     width: 150px;
@@ -115,15 +123,15 @@
 
 <main id="main"></main>
 
-<!-- Встроенный блок с QR-кодом для быстрого обмена -->
-<div class="qr-section">
+<!-- Добавлен вызов функции openQrZoom() при клике -->
+<div class="qr-section" onclick="openQrZoom()">
   <div style="font-weight:700;font-size:13px;color:var(--accent);margin-bottom:8px;">Поделиться словарем</div>
-  <img src="qrcode.png" alt="QR-код словаря">
-  <div style="font-size:11px;color:var(--muted);margin-top:8px;">Наведите камеру для открытия</div>
+  <img id="qrImg" src="qrcode.png" alt="QR-код словаря">
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;">Нажмите для увеличения</div>
 </div>
 
 <div id="zoomModal" onclick="closeZoom()">
-  <button style="position:absolute;top:20px;right:20px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">✕</button>
+  <button style="position:absolute;top:20px;right:20px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;font-weight:bold;z-index:60;">✕</button>
   <div id="zoomContent" onclick="event.stopPropagation()"></div>
   <div id="zoomTitle"></div>
 </div>
@@ -149,7 +157,6 @@
 </div>
 
 <script>
-// Автоматическая встроенная база данных с вашими материалами
 const DATA = [
 {cat:["Туркменский алфавит (Дактилология)","TÜRKMEN BARMAK ELIPBIÝI"],items:[
  [1001,"Буква A","Harp A","",""],
@@ -488,6 +495,7 @@ function renderSlot(it, slot){
   }
 }
 
+// Увеличение изображения или видео карточки
 function openZoom(num, slot, title){
   let item = null;
   DATA.forEach(g=>g.items.forEach(i=>{ if(i[0]===num) item=i; }));
@@ -498,7 +506,18 @@ function openZoom(num, slot, title){
   
   const modal = document.getElementById("zoomModal");
   document.getElementById("zoomTitle").textContent = `${title} (${slot==='dac'?'Дактиль':'Жест'})`;
-  document.getElementById("zoomContent").innerHTML = media.type === "video" ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}">`;
+  document.getElementById("zoomContent").innerHTML = media.type === "video" 
+    ? `<video src="${media.src}" controls autoplay style="max-width:100%; max-height:80vh;"></video>` 
+    : `<img src="${media.src}" style="max-width:100%; max-height:80vh; object-fit:contain;">`;
+  modal.style.display = "flex";
+}
+
+// Функция для увеличения QR-кода
+function openQrZoom(){
+  const modal = document.getElementById("zoomModal");
+  const qrSrc = document.getElementById("qrImg").src;
+  document.getElementById("zoomTitle").textContent = "QR-код словаря";
+  document.getElementById("zoomContent").innerHTML = `<img src="${qrSrc}" style="max-width:100%; max-height:80vh; object-fit:contain; background:#fff; padding:10px; border-radius:8px;">`;
   modal.style.display = "flex";
 }
 
@@ -528,9 +547,9 @@ function handleUpload(e, num, slot){
       const img = new Image();
       img.onload = function(){
         const canvas = document.createElement("canvas");
-        const scale = 400 / img.width; canvas.width = 400; canvas.height = img.height * scale;
+        const scale = 600 / img.width; canvas.width = 600; canvas.height = img.height * scale;
         canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        try{ localStorage.setItem(getKey(num, slot), canvas.toDataURL("image/jpeg", 0.7)); localStorage.setItem(getTypeKey(num, slot), "image"); if(item) renderSlot(item, slot); }
+        try{ localStorage.setItem(getKey(num, slot), canvas.toDataURL("image/jpeg", 0.8)); localStorage.setItem(getTypeKey(num, slot), "image"); if(item) renderSlot(item, slot); }
         catch(err){ alert("Ошибка сохранения фото."); }
       };
       img.src = ev.target.result;
@@ -544,10 +563,9 @@ function showRandomCard(){
   const rnd = all[Math.floor(Math.random()*all.length)];
   const word = lang === "ru" ? rnd[1] : rnd[2];
   if(getMediaSrc(rnd, 'jes')) openZoom(rnd[0], 'jes', word);
-  else openZoom(rnd[0], 'dac', word);
+  else if(getMediaSrc(rnd, 'dac')) openZoom(rnd[0], 'dac', word);
 }
 
-/* Конструктор Букв */
 let currentTargetWord = "", userBuiltWord = [];
 function openBuilder(){
   let wordsOnly = []; DATA.forEach(g=>{ if(g.cat[0]!=="Туркменский алфавит (Дактилология)") g.items.forEach(i=>wordsOnly.push(i)); });
@@ -595,7 +613,6 @@ function renderBuilder(){
   });
 }
 
-/* Викторина */
 let quizScore = [0, 0], allWords = [];
 DATA.forEach(g => g.items.forEach(it => allWords.push(it)));
 function openQuiz(){ document.getElementById("quizModal").style.display = "flex"; quizScore = [0, 0]; nextQuestion(); }
