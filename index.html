@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12171c">
 <title>ÜM-ÝŞARAT SÖZLEÝŞI — Электронный словарь</title>
 <style>
   :root{
@@ -61,7 +63,6 @@
   .delBtn{flex:0.25;background:rgba(217, 83, 79, 0.1);border-color:rgba(217, 83, 79, 0.3);color:#e74c3c;}
   .hiddenFile{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
 
-  /* Модальное окно для увеличенного просмотра */
   #zoomModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:50;align-items:center;justify-content:center;flex-direction:column;padding:16px;}
   #zoomContent{max-width:95vw;max-height:80vh;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
   #zoomContent img, #zoomContent video{max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px;}
@@ -76,7 +77,6 @@
   .letter-slot{display:inline-block;width:32px;height:36px;line-height:36px;border:1px dashed var(--accent);margin:3px;border-radius:6px;font-weight:700;font-size:16px;}
   .letter-btn{display:inline-block;padding:6px 10px;background:var(--bg);border:1px solid var(--border);margin:3px;border-radius:6px;font-weight:700;cursor:pointer;}
 
-  /* Стиль для кликабельного блока с QR-кодом */
   .qr-section {
     text-align: center;
     margin: 30px auto 15px auto;
@@ -123,7 +123,6 @@
 
 <main id="main"></main>
 
-<!-- Добавлен вызов функции openQrZoom() при клике -->
 <div class="qr-section" onclick="openQrZoom()">
   <div style="font-weight:700;font-size:13px;color:var(--accent);margin-bottom:8px;">Поделиться словарем</div>
   <img id="qrImg" src="qrcode.png" alt="QR-код словаря">
@@ -495,7 +494,6 @@ function renderSlot(it, slot){
   }
 }
 
-// Увеличение изображения или видео карточки
 function openZoom(num, slot, title){
   let item = null;
   DATA.forEach(g=>g.items.forEach(i=>{ if(i[0]===num) item=i; }));
@@ -512,7 +510,6 @@ function openZoom(num, slot, title){
   modal.style.display = "flex";
 }
 
-// Функция для увеличения QR-кода
 function openQrZoom(){
   const modal = document.getElementById("zoomModal");
   const qrSrc = document.getElementById("qrImg").src;
@@ -647,6 +644,12 @@ function nextQuestion(){
 }
 
 render();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+  });
+}
 </script>
 </body>
 </html>
