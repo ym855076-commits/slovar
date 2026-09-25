@@ -20,10 +20,11 @@
         .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
         header { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .school-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 5px; }
-        h1 { font-size: 24px; color: var(--accent); margin-bottom: 15px; }
+        .author-badge { display: inline-block; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 8px; }
+        h1 { font-size: 24px; color: var(--accent); margin: 15px 0; }
         .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 15px; }
-        button, .btn-link { background: var(--border); color: var(--text-main); border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
-        button:hover, .btn-link:hover { background: var(--accent); color: #fff; }
+        button { background: var(--border); color: var(--text-main); border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+        button:hover { background: var(--accent); color: #fff; }
         button.active { background: var(--accent); color: #fff; }
         .search-box { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-color); color: var(--text-main); font-size: 16px; }
         .categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: thin; }
@@ -34,16 +35,17 @@
         .word-number { font-size: 12px; color: var(--text-muted); text-align: center; }
         .word-title { font-size: 18px; font-weight: bold; text-align: center; color: var(--text-main); }
         .media-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .media-box.single { grid-template-columns: 1fr; }
         .media-slot { background: var(--bg-color); border: 2px dashed var(--border); border-radius: 8px; height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
         .media-slot img, .media-slot video { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
         .media-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
         .hidden-input { display: none; }
         .action-row { display: flex; gap: 5px; }
-        .action-row button { flex: 1; font-size: 12px; padding: 6px; }
+        .action-row button { flex: 1; font-size: 11px; padding: 6px; }
         .btn-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
         .btn-danger:hover { background: var(--danger); color: #fff; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; }
+        .modal-content { background: var(--card-bg); padding: 20px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 15px; align-items: center; text-align: center; }
         .qr-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .qr-img { width: 160px; height: 160px; border-radius: 8px; background: #fff; padding: 5px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .qr-img:hover { transform: scale(1.03); }
@@ -55,32 +57,30 @@
 <div class="container">
     <header>
         <div class="school-title">Türkmenistanyň Bilim ministrligi • Ýöriteleşdirilen mekdep-internaty</div>
-        <h1 id="main-title">Sözlük we Жестовый язык</h1>
+        <div class="author-badge">👑 Awtor / Terbiýeçi: Mürzaýew Ýusup</div>
+        <h1 id="main-title">Словарь жестового языка</h1>
         <div class="controls">
             <button onclick="toggleLang()" id="lang-btn">🌐 TM / RU</button>
-            <button onclick="openWordOfTheDay()">🎲 <span id="lbl-wotd">Söz güni</span></button>
-            <button onclick="openQuiz()">🎮 <span id="lbl-quiz">Test</span></button>
-            <button onclick="openConstructor()">🧩 <span id="lbl-const">Bukvasar</span></button>
+            <button onclick="openWordOfTheDay()">🎲 <span id="lbl-wotd">Слово дня</span></button>
+            <button onclick="openQuiz()">🎮 <span id="lbl-quiz">Тест</span></button>
+            <button onclick="openConstructor()">🧩 <span id="lbl-const">Буквы</span></button>
         </div>
-        <input type="text" id="searchInput" class="search-box" placeholder="Gözleg / Поиск слова..." oninput="filterWords()">
+        <input type="text" id="searchInput" class="search-box" placeholder="Поиск слова..." oninput="filterWords()">
     </header>
 
     <div class="categories" id="categoriesContainer"></div>
     <div class="cards-grid" id="cardsGrid"></div>
 
     <div class="qr-section">
-        <h3 id="lbl-share">Sözlügi paýlaşmak / Поделиться словарем</h3>
-        <a href="qrcode.png" target="_blank" title="Basyp uly ekranda açyň">
-            <img src="qrcode.png" alt="QR-код словаря" class="qr-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'14\'>qrcode.png ýok</text></svg>'">
-        </a>
-        <p style="font-size: 13px; color: var(--text-muted);" id="lbl-qr-hint">Uly etmek üçin surata basyň / Нажмите на QR-код для увеличения</p>
+        <h3 id="lbl-share">Поделиться словарем</h3>
+        <img src="qrcode.png" alt="QR-код" class="qr-img" onclick="openQrModal()" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'14\'>qrcode.png ýok</text></svg>'">
+        <p style="font-size: 13px; color: var(--text-muted);" id="lbl-qr-hint">Нажмите на QR-код для увеличения</p>
     </div>
 
     <footer>Mürzaýew Ýusup © 2026 • Hemme hukuklar goralan</footer>
 </div>
 
-<!-- Модальное окно -->
-<div class="modal" id="modalWindow">
+<div class="modal" id="modalWindow" onclick="if(event.target === this) closeModal()">
     <div class="modal-content" id="modalBody"></div>
 </div>
 
@@ -90,6 +90,7 @@
 
     const data = [
         {
+            isAlphabet: true,
             catName: { ru: "1. Дактиль (Алфавит)", tm: "1. Daktil (Elipbiý)" },
             words: [
                 { id: 1, ru: "Буква А", tm: "A harp" }, { id: 2, ru: "Буква Б", tm: "B harp" },
@@ -112,143 +113,27 @@
             ]
         },
         {
+            isAlphabet: false,
             catName: { ru: "2. Приветствия", tm: "2. Salamlaşmak" },
             words: [
                 { id: 34, ru: "Здравствуйте", tm: "Salam" }, { id: 35, ru: "Доброе утро", tm: "Ertiriňiz hayyrly bolsun" },
                 { id: 36, ru: "Добрый день", tm: "Günüňiz haýyrly bolsun" }, { id: 37, ru: "Добрый вечер", tm: "Agşamyňyz haýyrly bolsun" },
                 { id: 38, ru: "Привет", tm: "Salam" }, { id: 39, ru: "Как дела?", tm: "Ýagdaýlaryňyz neneňçi?" },
-                { id: 40, ru: "Спасибо", tm: "Sag boluň" }, { id: 41, ru: "Пожалуйста", tm: "Hoşalyk / Ýüz tutýaryn" },
-                { id: 42, ru: "До свидания", tm: "Sag boluň" }, { id: 43, ru: "Спокойной ночи", tm: "Gijäňiz rahat bolsun" },
-                { id: 44, ru: "Добро пожаловать", tm: "Hoş geldiňiz" }, { id: 45, ru: "Рад видеть", tm: "Görşendigime begenýärin" },
-                { id: 46, ru: "Пока", tm: "Häzirlikçe" }, { id: 47, ru: "Хорошего дня", tm: "Ýagşy gün arzuw edýärin" },
-                { id: 48, ru: "До скорого", tm: "Tiz görşýänçäk" }, { id: 49, ru: "Извините", tm: "Bagyşlaň" },
-                { id: 50, ru: "Простите", tm: "Günämi geçiň" }, { id: 51, ru: "Благодарю", tm: "Minnetdar" },
-                { id: 52, ru: "Всего доброго", tm: "Ýagşylykda galyň" }, { id: 53, ru: "Удачи", tm: "Rowaçlyk" }
+                { id: 40, ru: "Спасибо", tm: "Sag boluň" }, { id: 41, ru: "Пожалуйста", tm: "Hoşalyk" },
+                { id: 42, ru: "До свидания", tm: "Sag boluň" }, { id: 43, ru: "Спокойной ночи", tm: "Gijäňiz rahat bolsun" }
             ]
         },
         {
-            catName: { ru: "3. Семья и люди", tm: "3. Maşgala we adamlar" },
+            isAlphabet: false,
+            catName: { ru: "3. Семья и люди", tm: "3. Maşgala" },
             words: [
                 { id: 54, ru: "Мама", tm: "Eje" }, { id: 55, ru: "Папа", tm: "Kaka" },
                 { id: 56, ru: "Семья", tm: "Maşgala" }, { id: 57, ru: "Сын", tm: "Oglul" },
-                { id: 58, ru: "Дочь", tm: "Gyz" }, { id: 59, ru: "Брат", tm: "Dogan (oglan)" },
-                { id: 60, ru: "Сестра", tm: "Aýal dogan" }, { id: 61, ru: "Бабушка", tm: "Mama / Ene" },
-                { id: 62, ru: "Дедушка", tm: "Baba" }, { id: 63, ru: "Ребенок", tm: "Çaga" },
-                { id: 64, ru: "Человек", tm: "Adam" }, { id: 65, ru: "Друг", tm: "Dost" },
-                { id: 66, ru: "Подруга", tm: "Gyzyk dost" }, { id: 67, ru: "Учитель", tm: "Mugallym" },
-                { id: 68, ru: "Ученик", tm: "Okuwçy" }, { id: 69, ru: "Школа", tm: "Mekdep" },
-                { id: 70, ru: "Класс", tm: "Synp" }, { id: 71, ru: "Директор", tm: "Direktor" },
-                { id: 72, ru: "Врач", tm: "Lukman" }, { id: 73, ru: "Гость", tm: "Myhman" }
-            ]
-        },
-        {
-            catName: { ru: "4. Школа и учеба", tm: "4. Mekdep we okaýyş" },
-            words: [
-                { id: 74, ru: "Книга", tm: "Kitap" }, { id: 75, ru: "Тетрадь", tm: "Depder" },
-                { id: 76, ru: "Ручка", tm: "Ruçka" }, { id: 77, ru: "Карандаш", tm: "Galam" },
-                { id: 78, ru: "Урок", tm: "Sapak" }, { id: 79, ru: "Перемена", tm: "Arakesme" },
-                { id: 80, ru: "Задание", tm: "Ýumuş" }, { id: 81, ru: "Ответ", tm: "Jogap" },
-                { id: 82, ru: "Вопрос", tm: "Sorag" }, { id: 83, ru: "Учиться", tm: "Okamak" },
-                { id: 84, ru: "Знания", tm: "Bilim" }, { id: 85, ru: "Буква", tm: "Harp" },
-                { id: 86, ru: "Слово", tm: "Söz" }, { id: 87, ru: "Предложение", tm: "Sözlem" },
-                { id: 88, ru: "Язык", tm: "Dil" }, { id: 89, ru: "Жест", tm: "Jest" },
-                { id: 90, ru: "Словарь", tm: "Sözlük" }, { id: 91, ru: "Компьютер", tm: "Kompýuter" },
-                { id: 92, ru: "Телефон", tm: "Telefon" }, { id: 93, ru: "Интернет", tm: "Internet" }
-            ]
-        },
-        {
-            catName: { ru: "5. Числа и время", tm: "5. Sanlar we wagt" },
-            words: [
-                { id: 94, ru: "Один", tm: "Bir" }, { id: 95, ru: "Два", tm: "Iki" },
-                { id: 96, ru: "Три", tm: "Üç" }, { id: 97, ru: "Четыре", tm: "Dört" },
-                { id: 98, ru: "Пять", tm: "Bäş" }, { id: 99, ru: "Шесть", tm: "Alty" },
-                { id: 100, ru: "Семь", tm: "Eti" }, { id: 101, ru: "Восемь", tm: "Säkiz" },
-                { id: 102, ru: "Девять", tm: "Dokuz" }, { id: 103, ru: "Десять", tm: "On" },
-                { id: 104, ru: "Время", tm: "Wagt" }, { id: 105, ru: "Сегодня", tm: "Şu gün" },
-                { id: 106, ru: "Вчера", tm: "Düýn" }, { id: 107, ru: "Завтра", tm: "Ertir" },
-                { id: 108, ru: "Утро", tm: "Ertir" }, { id: 109, ru: "День", tm: "Gün" },
-                { id: 110, ru: "Вечер", tm: "Agşam" }, { id: 111, ru: "Ночь", tm: "Gije" },
-                { id: 112, ru: "Час", tm: "Sagat" }, { id: 113, ru: "Минута", tm: "Minut" }
-            ]
-        },
-        {
-            catName: { ru: "6. Цвета и природа", tm: "6. Reňkler we tebiýat" },
-            words: [
-                { id: 114, ru: "Красный", tm: "Gyzyl" }, { id: 115, ru: "Синий", tm: "Gök" },
-                { id: 116, ru: "Зеленый", tm: "Ýaşyl" }, { id: 117, ru: "Желтый", tm: "Sary" },
-                { id: 118, ru: "Белый", tm: "Ak" }, { id: 119, ru: "Черный", tm: "gara" },
-                { id: 120, ru: "Солнце", tm: "Gün" }, { id: 121, ru: "Луна", tm: "Aý" },
-                { id: 122, ru: "Звезда", tm: "Ýyldyz" }, { id: 123, ru: "Небо", tm: "Asman" },
-                { id: 124, ru: "Вода", tm: "Suw" }, { id: 125, ru: "Земля", tm: "Ýer" },
-                { id: 126, ru: "Цветок", tm: "Gül" }, { id: 127, ru: "Дерево", tm: "Aşgabat / Agaç" },
-                { id: 128, ru: "Птица", tm: "Guş" }, { id: 129, ru: "Животное", tm: "Haýwan" },
-                { id: 130, ru: "Дождь", tm: "Ýagmyr" }, { id: 131, ru: "Снег", tm: "Gar" },
-                { id: 132, ru: "Ветер", tm: "Ýel" }, { id: 133, ru: "Огонь", tm: "Ýangyn / Ot" }
-            ]
-        },
-        {
-            catName: { ru: "7. Еда и напитки", tm: "7. Iýmit we içgi" },
-            words: [
-                { id: 134, ru: "Хлеб", tm: "Çörek" }, { id: 135, ru: "Вода", tm: "Suw" },
-                { id: 136, ru: "Чай", tm: " Çaý" }, { id: 137, ru: "Молоко", tm: "Süt" },
-                { id: 138, ru: "Яблоко", tm: " Alma" }, { id: 139, ru: "Суп", tm: "Çorba" },
-                { id: 140, ru: "Мясо", tm: "Et" }, { id: 141, ru: "Сыр", tm: "Peýnir" },
-                { id: 142, ru: "Сахар", tm: "Şeker" }, { id: 143, ru: "Соль", tm: "Duz" },
-                { id: 144, ru: "Обед", tm: "Nahar" }, { id: 145, ru: "Завтрак", tm: "Irki nahar" },
-                { id: 146, ru: "Ужин", tm: "Agşam nahary" }, { id: 147, ru: "Фрукты", tm: "Miwe" },
-                { id: 148, ru: "Овощи", tm: "Gök önüm" }, { id: 149, ru: "Конфета", tm: "Kandep" },
-                { id: 150, ru: "Сок", tm: "Şire" }, { id: 151, ru: "Масло", tm: "Ýag" },
-                { id: 152, ru: "Яйцо", tm: "Ýumurtga" }, { id: 153, ru: "Вкусно", tm: "Lezzetli" }
-            ]
-        },
-        {
-            catName: { ru: "8. Чувства и эмоции", tm: "8. Duýgular" },
-            words: [
-                { id: 154, ru: "Радость", tm: "Şatlyk" }, { id: 155, ru: "Счастье", tm: "Bagt" },
-                { id: 156, ru: "Грусть", tm: "Gussa" }, { id: 157, ru: "Слезы", tm: "Ýaş" },
-                { id: 158, ru: "Удивление", tm: "Geň galmak" }, { id: 159, ru: "Страх", tm: "Gorky" },
-                { id: 160, ru: "Любовь", tm: "Söýgi" }, { id: 161, ru: "Доброта", tm: "Ýagşylyk" },
-                { id: 162, ru: "Интересно", tm: "Gyzykly" }, { id: 163, ru: "Хорошо", tm: "Gowy" },
-                { id: 164, ru: "Плохо", tm: "Erbet" }, { id: 165, ru: "Устал", tm:ad => "Ýadadym" },
-                { id: 166, ru: "Помощь", tm: "Kömek" }, { id: 167, ru: "Спокойствие", tm: "Rahatlyk" },
-                { id: 168, ru: "Гордость", tm: "Serpaý" }, { id: 169, ru: "Смех", tm: "Gülki" },
-                { id: 170, ru: "Интерес", tm: "Höwes" }, { id: 171, ru: "Тепло", tm: "Ýylylyk" },
-                { id: 172, ru: "Холод", tm: "Sowuk" }, { id: 173, ru: "Сила", tm: "Güýç" }
-            ]
-        },
-        {
-            catName: { ru: "9. Действия", tm: "9. Hereketler" },
-            words: [
-                { id: 174, ru: "Идти", tm: "Ýöremek" }, { id: 175, ru: "Бежать", tm: "Ylgamak" },
-                { id: 176, ru: "Говорить", tm: "Gepleşmek" }, { id: 177, ru: "Смотреть", tm: "Görmek" },
-                { id: 178, ru: "Слушать", tm: "Diňlemek" }, { id: 179, ru: "Думать", tm: "Pikirlenmek" },
-                { id: 180, ru: "Работать", tm: "Işlemek" }, { id: 181, ru: "Играть", tm: "Oýnamak" },
-                { id: 182, ru: "Спать", tm: "Ýatmak" }, { id: 183, ru: "Читать", tm: "Okamak" },
-                { id: 184, ru: "Писать", tm: "Ýazmak" }, { id: 185, ru: "Рисовать", tm: "Surata çekmek" },
-                { id: 186, ru: "Помогать", tm: "Kömek etmek" }, { id: 187, ru: "Понимать", tm: "Düşünmek" },
-                { id: 188, ru: "Знать", tm: "Bilmek" }, { id: 189, ru: "Хотеть", tm: "Islemek" },
-                { id: 190, ru: "Любить", tm: "Söýmek" }, { id: 191, ru: "Жить", tm: "Ýaşamak" },
-                { id: 192, ru: "Прыгать", tm: "Bökjeklemek" }, { id: 193, ru: "Сидеть", tm: "Oturmak" }
-            ]
-        },
-        {
-            catName: { ru: "10. Разговорные фразы", tm: "10. Söhbetdeşlik jümleleri" },
-            words: [
-                { id: 194, ru: "Как тебя зовут?", tm: "Adyň näme?" }, { id: 195, ru: "Меня зовут...", tm: "Meniň adym..." },
-                { id: 196, ru: "Я тебя понимаю", tm: "Men saňa düşünýärin" }, { id: 197, ru: "Повтори еще раз", tm: "Ýene bir gezek gaýtala" },
-                { id: 198, ru: "Покажи жест", tm: "Jesti görkez" }, { id: 199, ru: "Я не понял", tm: "Men düşünmedim" },
-                { id: 200, ru: "Все правильно", tm: "Hemmesi dogry" }, { id: 201, ru: "Молодец!", tm: "Apareý! / Bäbek!" },
-                { id: 202, ru: "Пойдем со мной", tm: "Meniň bilen ýör" }, { id: 203, ru: "Посмотри сюда", tm: "Şu ýere seret" },
-                { id: 204, ru: "Я рад", tm: "Men begendin" }, { id: 205, ru: "Спасибо за помощь", tm: "Kömegiňiz üçin sag boluň" },
-                { id: 206, ru: "До встречи", tm:üşine-de görşýänçäk }, { id: 207, ru: "Не бояться сказать", tm: "Aýtmakdan gorkmazlyk" },
-                { id: 208, ru: "Подожди немного", tm: "Azajyk garaş" }, { id: 209, ru: "Тихо", tm: "Sesini çykarma / Ümsüm" },
-                { id: 210, ru: "Громко", tm: "Batyly ses" }, { id: 211, ru: "Верно", tm: "Dogry" },
-                { id: 212, ru: "Неверно", tm: "Nädogry" }, { id: 213, ru: "Всё готово", tm: "Hemmesi taýýar" }
+                { id: 58, ru: "Дочь", tm: "Gyz" }, { id: 59, ru: "Брат", tm: "Dogan" }
             ]
         }
     ];
 
-    // Загрузка пользовательских медиа из localStorage
     let userMedia = JSON.parse(localStorage.getItem('slovar_media') || '{}');
 
     function init() {
@@ -266,7 +151,7 @@
 
     function updateTexts() {
         document.getElementById('main-title').innerText = currentLang === 'ru' ? 'Словарь жестового языка' : 'Žest dili sözlügi';
-        document.getElementById('lang-btn').innerText = currentLang === 'ru' ? '🌐 TM' : '🌐 RU';
+        document.getElementById('lang-btn').innerText = currentLang === 'ru' ? '🌐 TM / RU' : '🌐 RU / TM';
         document.getElementById('lbl-wotd').innerText = currentLang === 'ru' ? 'Слово дня' : 'Söz güni';
         document.getElementById('lbl-quiz').innerText = currentLang === 'ru' ? 'Тест' : 'Test';
         document.getElementById('lbl-const').innerText = currentLang === 'ru' ? 'Буквы' : 'Bukvasar';
@@ -291,17 +176,19 @@
         const grid = document.getElementById('cardsGrid');
         grid.innerHTML = '';
         
+        let activeCat = data[currentCat];
         let wordsToRender = [];
+
         if(filterText) {
             data.forEach(cat => {
                 cat.words.forEach(w => {
                     if(w.ru.toLowerCase().includes(filterText.toLowerCase()) || w.tm.toLowerCase().includes(filterText.toLowerCase())) {
-                        wordsToRender.push(w);
+                        wordsToRender.push({word: w, isAlphabet: cat.isAlphabet});
                     }
                 });
             });
         } else {
-            wordsToRender = data[currentCat].words;
+            wordsToRender = activeCat.words.map(w => ({word: w, isAlphabet: activeCat.isAlphabet}));
         }
 
         if(wordsToRender.length === 0) {
@@ -309,31 +196,52 @@
             return;
         }
 
-        wordsToRender.forEach(word => {
+        wordsToRender.forEach(item => {
+            const word = item.word;
+            const isAlphabet = item.isAlphabet;
             const card = document.createElement('div');
             card.className = 'word-card';
             
-            const media = userMedia[word.id] || { photo: '', video: '' };
+            const media = userMedia[word.id] || { daktil: '', gest: '' };
 
-            card.innerHTML = `
-                <div class="word-number">№${word.id}</div>
-                <div class="word-title">${word[currentLang]}</div>
-                <div class="media-box">
-                    <div class="media-slot" onclick="triggerUpload(${word.id}, 'photo')">
-                        ${media.photo ? `<img src="${media.photo}">` : `<span style="font-size:24px">📷</span><span class="media-label">${currentLang === 'ru' ? 'Фото' : 'Surat'}</span>`}
+            if (isAlphabet) {
+                // Карточка для алфавита (Дактиль + Жест)
+                card.innerHTML = `
+                    <div class="word-number">№${word.id}</div>
+                    <div class="word-title">${word[currentLang]}</div>
+                    <div class="media-box">
+                        <div class="media-slot" onclick="triggerUpload(${word.id}, 'daktil')">
+                            ${media.daktil ? `<img src="${media.daktil}">` : `<span style="font-size:20px">📁</span><span class="media-label">Daktil</span>`}
+                        </div>
+                        <div class="media-slot" onclick="triggerUpload(${word.id}, 'gest')">
+                            ${media.gest ? `<img src="${media.gest}">` : `<span style="font-size:20px">📁</span><span class="media-label">Žest</span>`}
+                        </div>
                     </div>
-                    <div class="media-slot" onclick="triggerUpload(${word.id}, 'video')">
-                        ${media.video ? `<video src="${media.video}" controls></video>` : `<span style="font-size:24px">🎥</span><span class="media-label">Video</span>`}
+                    <input type="file" id="file-${word.id}-daktil" class="hidden-input" accept="image/*,video/*" onchange="handleFile(event, ${word.id}, 'daktil')">
+                    <input type="file" id="file-${word.id}-gest" class="hidden-input" accept="image/*,video/*" onchange="handleFile(event, ${word.id}, 'gest')">
+                    <div class="action-row">
+                        <button onclick="triggerUpload(${word.id}, 'daktil')">📂 Daktil</button>
+                        <button onclick="triggerUpload(${word.id}, 'gest')">📂 Žest</button>
                     </div>
-                </div>
-                <input type="file" id="file-${word.id}-photo" class="hidden-input" accept="image/*" onchange="handleFile(event, ${word.id}, 'photo')">
-                <input type="file" id="file-${word.id}-video" class="hidden-input" accept="video/*" onchange="handleFile(event, ${word.id}, 'video')">
-                <div class="action-row">
-                    <button onclick="triggerUpload(${word.id}, 'photo')">✏️ ${currentLang === 'ru' ? 'Загрузить фото' : 'Surat goş'}</button>
-                    <button onclick="triggerUpload(${word.id}, 'video')">✏️ Video</button>
-                </div>
-                ${(media.photo || media.video) ? `<button class="btn-danger" onclick="deleteMedia(${word.id})">🗑️ ${currentLang === 'ru' ? 'Удалить файлы' : 'Pozmak'}</button>` : ''}
-            `;
+                    ${(media.daktil || media.gest) ? `<button class="btn-danger" onclick="deleteMedia(${word.id})">🗑️ ${currentLang === 'ru' ? 'Удалить' : 'Pozmak'}</button>` : ''}
+                `;
+            } else {
+                // Карточка для остальных разделов (Один слот)
+                card.innerHTML = `
+                    <div class="word-number">№${word.id}</div>
+                    <div class="word-title">${word[currentLang]}</div>
+                    <div class="media-box single">
+                        <div class="media-slot" onclick="triggerUpload(${word.id}, 'gest')">
+                            ${media.gest ? `<img src="${media.gest}">` : `<span style="font-size:24px">📁</span><span class="media-label">${currentLang === 'ru' ? 'Выбрать файл' : 'Faýl saýla'}</span>`}
+                        </div>
+                    </div>
+                    <input type="file" id="file-${word.id}-gest" class="hidden-input" accept="image/*,video/*" onchange="handleFile(event, ${word.id}, 'gest')">
+                    <div class="action-row">
+                        <button onclick="triggerUpload(${word.id}, 'gest')">📂 ${currentLang === 'ru' ? 'Загрузить' : 'Ýüklemek'}</button>
+                    </div>
+                    ${media.gest ? `<button class="btn-danger" onclick="deleteMedia(${word.id})">🗑️ ${currentLang === 'ru' ? 'Удалить' : 'Pozmak'}</button>` : ''}
+                `;
+            }
             grid.appendChild(card);
         });
     }
@@ -352,7 +260,7 @@
         if(!file) return;
         const reader = new FileReader();
         reader.onload = function(e) {
-            if(!userMedia[id]) userMedia[id] = { photo: '', video: '' };
+            if(!userMedia[id]) userMedia[id] = { daktil: '', gest: '' };
             userMedia[id][type] = e.target.result;
             localStorage.setItem('slovar_media', JSON.stringify(userMedia));
             renderCards(document.getElementById('searchInput').value);
@@ -368,86 +276,40 @@
         }
     }
 
+    function openQrModal() {
+        const modal = document.getElementById('modalWindow');
+        const body = document.getElementById('modalBody');
+        body.innerHTML = `
+            <h2>${currentLang === 'ru' ? 'QR-код словаря' : 'Sözlügiň QR-kody'}</h2>
+            <img src="qrcode.png" alt="QR-код" style="width: 260px; height: 260px; border-radius: 8px; background: #fff; padding: 10px; object-fit: contain;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'%23fff\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23333\' font-size=\'16\'>qrcode.png ýok</text></svg>'">
+            <button onclick="closeModal()" style="background: var(--accent); color: #fff; width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>
+        `;
+        modal.style.display = 'flex';
+    }
+
     function openWordOfTheDay() {
         const allWords = data.flatMap(c => c.words);
         const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
         const modal = document.getElementById('modalWindow');
-        const body = document.getElementById('modalBody');
-        
+        body = document.getElementById('modalBody');
         body.innerHTML = `
             <h2>🎲 ${currentLang === 'ru' ? 'Слово дня' : 'Günüň sözi'}</h2>
-            <div style="font-size: 22px; font-weight: bold; text-align: center; color: var(--accent); margin: 20px 0;">${randomWord[currentLang]}</div>
-            <p style="text-align: center; color: var(--text-muted);">${currentLang === 'ru' ? 'Изучите жест для этого слова сегодня!' : 'Şu gün şu sözi öwreniň!'}</p>
-            <button onclick="closeModal()" style="background: var(--accent); color: #fff;">OK</button>
+            <div style="font-size: 22px; font-weight: bold; color: var(--accent); margin: 20px 0;">${randomWord[currentLang]}</div>
+            <button onclick="closeModal()" style="background: var(--accent); color: #fff; width: 100%; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">OK</button>
         `;
         modal.style.display = 'flex';
     }
 
     function openQuiz() {
-        const allWords = data.flatMap(c => c.words);
-        const correct = allWords[Math.floor(Math.random() * allWords.length)];
-        let options = [correct];
-        while(options.length < 3) {
-            const rand = allWords[Math.floor(Math.random() * allWords.length)];
-            if(!options.includes(rand)) options.push(rand);
-        }
-        options.sort(() => Math.random() - 0.5);
-
         const modal = document.getElementById('modalWindow');
-        const body = document.getElementById('modalBody');
-        
-        let html = `<h2>🎮 ${currentLang === 'ru' ? 'Викторина' : 'Barlag testi'}</h2>`;
-        html += `<p style="margin: 10px 0; font-size:16px;">${currentLang === 'ru' ? 'Какое слово соответствует значению?' : 'Haýsy söz laýyk gelýär?'}</p>`;
-        html += `<div style="font-size:20px; font-weight:bold; color:var(--accent); text-align:center; margin:15px 0;">ID: №${correct.id}</div>`;
-        
-        options.forEach(opt => {
-            html += `<button onclick="checkQuiz(${opt.id === correct.id})" style="width:100%; text-align:left; margin-bottom:8px; padding:12px;">${opt[currentLang]}</button>`;
-        });
-        html += `<button onclick="closeModal()" class="btn-danger" style="margin-top:10px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
-        
-        body.innerHTML = html;
+        document.getElementById('modalBody').innerHTML = `<h2>🎮 Test</h2><p>Tez wagtdan işläp başlar...</p><button onclick="closeModal()" style="background:var(--accent); color:#fff; padding:8px 16px; border-radius:6px; border:none;">OK</button>`;
         modal.style.display = 'flex';
-    }
-
-    function checkQuiz(isCorrect) {
-        const body = document.getElementById('modalBody');
-        if(isCorrect) {
-            body.innerHTML = `<h2 style="color:var(--accent); text-align:center;">🎉 ${currentLang === 'ru' ? 'Правильно! Молодец!' : 'Dogry! Äpeteri!'}</h2><button onclick="openQuiz()" style="background:var(--accent); color:#fff; margin-top:15px;">${currentLang === 'ru' ? 'Следующий вопрос' : 'Indiki sorag'}</button><button onclick="closeModal()" style="margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
-        } else {
-            body.innerHTML = `<h2 style="color:var(--danger); text-align:center;">❌ ${currentLang === 'ru' ? 'Ошибка, попробуйте еще раз' : 'Ýalňyş, täzeden synanyşyň'}</h2><button onclick="openQuiz()" style="margin-top:15px;">${currentLang === 'ru' ? 'Повторить' : 'Täzeden'}</button><button onclick="closeModal()" style="margin-top:5px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>`;
-        }
     }
 
     function openConstructor() {
         const modal = document.getElementById('modalWindow');
-        const body = document.getElementById('modalBody');
-        body.innerHTML = `
-            <h2>🧩 ${currentLang === 'ru' ? 'Конструктор дактиля' : 'Daktil gurluşy'}</h2>
-            <p style="color:var(--text-muted); font-size:14px;">${currentLang === 'ru' ? 'Введите слово буквами для сборки пальцевой азбуки:' : 'Elipbiý arkaly söz düzüň:'}</p>
-            <input type="text" id="constructInput" class="search-box" placeholder="${currentLang === 'ru' ? 'Введите текст...' : 'Söz ýazyň...'}" oninput="buildLetters()">
-            <div id="lettersOutput" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; min-height:60px; align-items:center; justify-content:center; background:var(--bg-color); border-radius:8px; padding:10px;"></div>
-            <button onclick="closeModal()" style="margin-top:10px;">${currentLang === 'ru' ? 'Закрыть' : 'Ýapmak'}</button>
-        `;
+        document.getElementById('modalBody').innerHTML = `<h2>🧩 Bukvasar</h2><p>Tez wagtdan işläp başlar...</p><button onclick="closeModal()" style="background:var(--accent); color:#fff; padding:8px 16px; border-radius:6px; border:none;">OK</button>`;
         modal.style.display = 'flex';
-    }
-
-    function buildLetters() {
-        const val = document.getElementById('constructInput').value.toUpperCase();
-        const out = document.getElementById('lettersOutput');
-        out.innerHTML = '';
-        for(let char of val) {
-            if(char.trim() !== '') {
-                const box = document.createElement('div');
-                box.style.background = 'var(--card-bg)';
-                box.style.border = '1px solid var(--accent)';
-                box.style.borderRadius = '6px';
-                box.style.padding = '8px 12px';
-                box.style.fontWeight = 'bold';
-                box.style.color = 'var(--accent)';
-                box.innerText = char;
-                out.appendChild(box);
-            }
-        }
     }
 
     function closeModal() {
