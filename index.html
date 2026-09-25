@@ -73,6 +73,24 @@
   
   .letter-slot{display:inline-block;width:32px;height:36px;line-height:36px;border:1px dashed var(--accent);margin:3px;border-radius:6px;font-weight:700;font-size:16px;}
   .letter-btn{display:inline-block;padding:6px 10px;background:var(--bg);border:1px solid var(--border);margin:3px;border-radius:6px;font-weight:700;cursor:pointer;}
+
+  /* Стиль для встроенного QR-кода */
+  .qr-section {
+    text-align: center;
+    margin: 30px auto 15px auto;
+    padding: 20px;
+    max-width: 280px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .qr-section img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 6px;
+  }
 </style>
 </head>
 <body data-theme="dark">
@@ -96,6 +114,13 @@
 </div>
 
 <main id="main"></main>
+
+<!-- Встроенный блок с QR-кодом для быстрого обмена -->
+<div class="qr-section">
+  <div style="font-weight:700;font-size:13px;color:var(--accent);margin-bottom:8px;">Поделиться словарем</div>
+  <img src="qrcode.png" alt="QR-код словаря">
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;">Наведите камеру для открытия</div>
+</div>
 
 <div id="zoomModal" onclick="closeZoom()">
   <button style="position:absolute;top:20px;right:20px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">✕</button>
